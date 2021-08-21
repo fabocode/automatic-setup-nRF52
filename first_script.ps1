@@ -1,3 +1,6 @@
+Write-Host "Congratulations! Your first script executed successfully"
+
+$c_cpp_json = @'
 {
     "configurations": [
         {
@@ -28,3 +31,6 @@
     ],
     "version": 4
 }
+'@
+ConvertTo-Json $c_cpp_json
+
