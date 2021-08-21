@@ -1,5 +1,9 @@
 Write-Host "Congratulations! Your first script executed successfully"
 
+$c_cpp_filename = "c_cpp_properties.json"
+$settings_filename = "settings.json"
+$tasks_filename = "tasks.json"
+
 $c_cpp_json = @'
 {
     "configurations": [
@@ -43,8 +47,6 @@ $settings_json = @'
 
 $tasks_json = @'
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
         {
@@ -114,3 +116,14 @@ $tasks_json = @'
 $path = "$PWD\.vscode"
 New-Item -Path $path -ItemType Directory
 
+$c_cpp_path = "$path\$c_cpp_filename"
+$settings_path = "$path\$settings_filename"
+$tasks_path = "$path\$tasks_filename"
+
+# copy the necessary files into new directory
+$c_cpp_json | ConvertFrom-Json | ConvertTo-Json  -depth 100 | Set-Content $c_cpp_path -Encoding String | ForEach-Object { [System.Text.RegularExpressions.Regex]::Unescape($_) }
+$settings_json | ConvertFrom-Json | ConvertTo-Json  -depth 100 | Set-Content $settings_path 
+$tasks_json | ConvertFrom-Json | ConvertTo-Json  -depth 100 | Set-Content $tasks_path 
+
+# TODO: Create configuration for debugging 
+# TODO: Pretty format for json files.
